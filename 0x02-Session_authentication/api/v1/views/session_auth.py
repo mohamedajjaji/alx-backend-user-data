@@ -14,13 +14,13 @@ def login() -> Tuple[str, int]:
     Return:
       - JSON representation of a User object
     """
-    not_found_res = { "error": "no user found for this email" }
+    not_found_res = {"error": "no user found for this email"}
     email = request.form.get('email')
     if email is None or len(email.strip()) == 0:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     password = request.form.get('password')
     if password is None or len(password.strip()) == 0:
-        return jsonify({ "error": "password missing" }), 400
+        return jsonify({"error": "password missing"}), 400
     try:
         users = User.search({'email': email})
     except Exception:
@@ -33,4 +33,4 @@ def login() -> Tuple[str, int]:
         res = jsonify(users[0].to_json())
         res.set_cookie(os.getenv("SESSION_NAME"), sessiond_id)
         return res
-    return jsonify({ "error": "wrong password" }), 401
+    return jsonify({"error": "wrong password"}), 401
